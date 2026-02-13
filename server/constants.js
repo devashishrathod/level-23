@@ -48,6 +48,12 @@ module.exports = {
     CLOTHING: "clothing",
   }),
 
+  INVENTORY_STATUS: Object.freeze({
+    AVAILABLE: "available",
+    RESERVED: "reserved",
+    SOLD: "sold",
+  }),
+
   ZIP_CODE_REGEX_MAP: Object.freeze({
     IN: /^[1-9][0-9]{5}$/, // India (6 digits)
     US: /^\d{5}(-\d{4})?$/, // USA (ZIP or ZIP+4)
