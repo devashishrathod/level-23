@@ -21,6 +21,8 @@ module.exports = Object.freeze({
   subCategoryField: refField("SubCategory"),
   locationField: refField("Location"),
   ProductField: refField("Product"),
+  propertyField: refField("Property"),
+  bookingField: refField("Booking"),
 
   // Array of ObjectIds with validation
   locationsField: Object.freeze({

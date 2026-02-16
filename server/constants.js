@@ -54,6 +54,27 @@ module.exports = {
     SOLD: "sold",
   }),
 
+  BOOKING_TYPES: Object.freeze({
+    NEW: "new",
+    RESALE: "resale",
+  }),
+
+  BOOKING_STATUS: Object.freeze({
+    PENDING: "pending",
+    PROCESSING: "processing",
+    CONFIRMED: "confirmed",
+    CANCELLED: "cancelled",
+    REJECTED: "rejected",
+  }),
+
+  PAYMENT_METHODS: Object.freeze({
+    CHEQUE: "cheque",
+    RTGS_NEFT: "rtgs/neft",
+    CASH: "cash",
+    UPI: "upi",
+    DEBIT_CREDIT_CARD: "debit/credit card",
+  }),
+
   ZIP_CODE_REGEX_MAP: Object.freeze({
     IN: /^[1-9][0-9]{5}$/, // India (6 digits)
     US: /^\d{5}(-\d{4})?$/, // USA (ZIP or ZIP+4)
