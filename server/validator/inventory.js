@@ -12,7 +12,9 @@ exports.validateCreateInventory = (data) => {
       "any.invalid": "Invalid categoryId format",
     }),
     quantity: Joi.number().integer().min(0).optional(),
-    status: Joi.string().valid(Object.values(INVENTORY_STATUS)).optional(),
+    status: Joi.string()
+      .valid(...Object.values(INVENTORY_STATUS))
+      .optional(),
     price: Joi.number().min(0).optional(),
     isActive: Joi.boolean().optional(),
   });
@@ -29,7 +31,9 @@ exports.validateUpdateInventory = (payload) => {
       "any.invalid": "Invalid categoryId format",
     }),
     quantity: Joi.number().integer().min(0).optional(),
-    status: Joi.string().valid(Object.values(INVENTORY_STATUS)).optional(),
+    status: Joi.string()
+      .valid(...Object.values(INVENTORY_STATUS))
+      .optional(),
     price: Joi.number().min(0).optional(),
     isActive: Joi.boolean().optional(),
   });
@@ -43,7 +47,9 @@ exports.validateGetAllInventoryQuery = (payload) => {
     search: Joi.string().optional(),
     name: Joi.string().optional(),
     categoryId: objectId().optional(),
-    status: Joi.string().valid(Object.values(INVENTORY_STATUS)).optional(),
+    status: Joi.string()
+      .valid(...Object.values(INVENTORY_STATUS))
+      .optional(),
     quantity: Joi.number().integer().min(0).optional(),
     minQuantity: Joi.number().integer().min(0).optional(),
     maxQuantity: Joi.number().integer().min(0).optional(),

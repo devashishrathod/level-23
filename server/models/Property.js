@@ -17,11 +17,10 @@ const propertySchema = new mongoose.Schema(
   { timestamps: true, versionKey: false },
 );
 
-propertySchema.pre("save", function (next) {
+propertySchema.pre("save", function () {
   const area = Number(this.areaSqFt || 0);
   const rate = Number(this.pricePerSqFt || 0);
   this.totalPrice = area * rate;
-  next();
 });
 
 module.exports = mongoose.model("Property", propertySchema);

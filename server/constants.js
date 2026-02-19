@@ -3,6 +3,7 @@ module.exports = {
     ADMIN: "admin",
     STAFF: "staff",
     USER: "user",
+    PARTNER: "partner",
   }),
 
   LOGIN_TYPES: Object.freeze({
@@ -73,6 +74,19 @@ module.exports = {
     CASH: "cash",
     UPI: "upi",
     DEBIT_CREDIT_CARD: "debit/credit card",
+  }),
+
+  PARTNER_TYPES: Object.freeze({
+    BROKER: "broker",
+    AGENT: "agent",
+    CONSULTANT: "consultant",
+    BUILDER: "builder",
+  }),
+
+  PARTNER_STATUS: Object.freeze({
+    ACTIVE: "active",
+    INACTIVE: "inactive",
+    PENDING: "pending",
   }),
 
   ZIP_CODE_REGEX_MAP: Object.freeze({

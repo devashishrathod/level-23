@@ -19,20 +19,26 @@ exports.updateProperty = async (id, payload) => {
     isActive,
   } = payload;
 
-  if (typeof isActive !== "undefined") result.isActive = !result.isActive;
+  if (typeof isActive !== "undefined") result.isActive = isActive;
 
   if (categoryId && categoryId.toString() !== result.categoryId?.toString()) {
-    const category = await Category.findOne({ _id: categoryId, isDeleted: false });
+    const category = await Category.findOne({
+      _id: categoryId,
+      isDeleted: false,
+    });
     if (!category) throwError(404, "Category not found");
     result.categoryId = categoryId;
   }
 
   if (projectName) result.projectName = projectName?.toLowerCase();
-  if (typeof towerBlock !== "undefined") result.towerBlock = towerBlock?.toLowerCase();
-  if (typeof unitNumber !== "undefined") result.unitNumber = unitNumber?.toLowerCase();
+  if (typeof towerBlock !== "undefined")
+    result.towerBlock = towerBlock?.toLowerCase();
+  if (typeof unitNumber !== "undefined")
+    result.unitNumber = unitNumber?.toLowerCase();
   if (typeof floor !== "undefined") result.floor = floor;
   if (typeof areaSqFt !== "undefined") result.areaSqFt = Number(areaSqFt);
-  if (typeof pricePerSqFt !== "undefined") result.pricePerSqFt = Number(pricePerSqFt);
+  if (typeof pricePerSqFt !== "undefined")
+    result.pricePerSqFt = Number(pricePerSqFt);
 
   result.updatedAt = new Date();
   await result.save();

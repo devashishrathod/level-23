@@ -3,6 +3,7 @@ const validator = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { ROLES, LOGIN_TYPES } = require("../constants");
+const { partnerField } = require("./validObjectId");
 const { isValidPhoneNumber } = require("../validator/common");
 
 const userSchema = new mongoose.Schema(
@@ -44,6 +45,7 @@ const userSchema = new mongoose.Schema(
     currentLocation: { lat: Number, lng: Number },
     fcmToken: { type: String },
     image: { type: String },
+    partnerId: { ...partnerField },
     otp: { code: String, expiresAt: Date },
     // uniqueId: { type: String, unique: true },
     currentScreen: { type: String, default: "LANDING_SCREEN" },
@@ -56,7 +58,7 @@ const userSchema = new mongoose.Schema(
     isActive: { type: Boolean, default: true },
     isDeleted: { type: Boolean, default: false },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true, versionKey: false },
 );
 
 userSchema.methods.getSignedJwtToken = function (options = {}) {
@@ -65,7 +67,7 @@ userSchema.methods.getSignedJwtToken = function (options = {}) {
   return jwt.sign(
     { id: this._id, role: this.role, name: this.name, email: this.email },
     secret,
-    { expiresIn }
+    { expiresIn },
   );
 };
 
@@ -80,10 +82,9 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next;
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
   this.password = await bcrypt.hash(this.password, 10);
-  next;
 });
 
 module.exports = mongoose.model("User", userSchema);
