@@ -2,6 +2,8 @@ module.exports = {
   ROLES: Object.freeze({
     ADMIN: "admin",
     STAFF: "staff",
+    SALES: "sales",
+    SALESMAN: "salesman",
     USER: "user",
     PARTNER: "partner",
   }),
@@ -87,6 +89,34 @@ module.exports = {
     ACTIVE: "active",
     INACTIVE: "inactive",
     PENDING: "pending",
+  }),
+
+  UNIT_STATUS: Object.freeze({
+    AVAILABLE: "available",
+    SOLD: "sold",
+    HOLD: "hold",
+  }),
+
+  UNIT_TYPES: Object.freeze({
+    ONE_BHK: "1bhk",
+    TWO_BHK: "2bhk",
+    THREE_BHK: "3bhk",
+    FOUR_BHK: "4bhk",
+    STUDIO: "studio",
+    PENTHOUSE: "penthouse",
+    SHOP: "shop",
+    OFFICE: "office",
+  }),
+
+  UNIT_FACING: Object.freeze({
+    NORTH: "north",
+    SOUTH: "south",
+    EAST: "east",
+    WEST: "west",
+    NORTH_EAST: "north-east",
+    NORTH_WEST: "north-west",
+    SOUTH_EAST: "south-east",
+    SOUTH_WEST: "south-west",
   }),
 
   ZIP_CODE_REGEX_MAP: Object.freeze({

@@ -3,14 +3,11 @@ const dns = require("dns");
 const dotenv = require("dotenv");
 dotenv.config();
 
-console.log("url ", process.env.MONGO_URL);
-
 exports.mongoDb = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URL);
     console.log("✅ Level-23 MongoDb connection established");
   } catch (error) {
-    // If SRV DNS fails due to local network issues, retry with public DNS
     if (error.code === "ECONNREFUSED" && error.syscall === "querySrv") {
       console.log("⚠️ SRV DNS failed; retrying with public DNS...");
       dns.setServers(["8.8.8.8", "1.1.1.1"]);
