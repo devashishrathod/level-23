@@ -7,49 +7,38 @@ exports.getAllCostSheets = async (query) => {
     page,
     limit,
     search,
-
     projectId,
     towerId,
     floorId,
     unitId,
-
     isActive,
     fromDate,
     toDate,
-
     sortBy = "createdAt",
     sortOrder = "desc",
   } = query;
-
   page = page ? Number(page) : 1;
   limit = limit ? Number(limit) : 10;
-
   const match = { isDeleted: false };
-
   if (typeof isActive !== "undefined") {
     match.isActive = isActive === "true" || isActive === true;
   }
-
   if (projectId) {
     validateObjectId(projectId, "Project Id");
     match.projectId = new mongoose.Types.ObjectId(projectId);
   }
-
   if (towerId) {
     validateObjectId(towerId, "Tower Id");
     match.towerId = new mongoose.Types.ObjectId(towerId);
   }
-
   if (floorId) {
     validateObjectId(floorId, "Floor Id");
     match.floorId = new mongoose.Types.ObjectId(floorId);
   }
-
   if (unitId) {
     validateObjectId(unitId, "Unit Id");
     match.unitId = new mongoose.Types.ObjectId(unitId);
   }
-
   if (fromDate || toDate) {
     match.createdAt = {};
     if (fromDate) match.createdAt.$gte = new Date(fromDate);
@@ -59,7 +48,6 @@ exports.getAllCostSheets = async (query) => {
       match.createdAt.$lte = d;
     }
   }
-
   const pipeline = [
     { $match: match },
     {
@@ -121,7 +109,6 @@ exports.getAllCostSheets = async (query) => {
     },
     { $unwind: { path: "$unit", preserveNullAndEmptyArrays: false } },
   ];
-
   if (search) {
     pipeline.push({
       $match: {
@@ -134,14 +121,12 @@ exports.getAllCostSheets = async (query) => {
       },
     });
   }
-
   pipeline.push({
     $project: {
       project: 1,
       tower: 1,
       floor: 1,
       unit: 1,
-
       basicRate: 1,
       development: 1,
       dgBackup: 1,
@@ -149,15 +134,12 @@ exports.getAllCostSheets = async (query) => {
       societyLegal: 1,
       floorRise: 1,
       otherCharges: 1,
-
       isActive: 1,
       createdAt: 1,
     },
   });
-
   const sortStage = {};
   sortStage[sortBy] = sortOrder === "asc" ? 1 : -1;
   pipeline.push({ $sort: sortStage });
-
   return await pagination(CostSheet, pipeline, page, limit);
 };

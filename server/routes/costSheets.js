@@ -6,14 +6,12 @@ const {
   create,
   get,
   getAll,
-  getAllForUser,
   update,
   deleteCostSheet,
 } = require("../controllers/costSheets");
 
 router.post("/create", isAdmin, create);
 router.get("/getAll", isAdmin, getAll);
-router.get("/getAllForUser", verifyJwtToken, getAllForUser);
 router.get("/get/:id", verifyJwtToken, get);
 router.put("/update/:id", isAdmin, update);
 router.delete("/delete/:id", isAdmin, deleteCostSheet);
