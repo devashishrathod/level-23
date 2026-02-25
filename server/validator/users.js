@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { ROLES } = require("../constants");
 
 exports.validateUpdateUser = (data) => {
   const schema = Joi.object({
@@ -23,4 +24,26 @@ exports.validateUpdateUser = (data) => {
     }),
   });
   return schema.validate(data, { abortEarly: false });
+};
+
+exports.validateGetAllUserQuery = (query) => {
+  const schema = Joi.object({
+    page: Joi.number().integer().min(1).optional(),
+    limit: Joi.number().integer().min(1).optional(),
+    search: Joi.string().optional(),
+    role: Joi.string()
+      .valid(...Object.values(ROLES))
+      .optional(),
+    name: Joi.string().optional(),
+    email: Joi.string().optional(),
+    mobile: Joi.alternatives().try(Joi.number(), Joi.string()).optional(),
+    isActive: Joi.alternatives().try(Joi.boolean(), Joi.string()).optional(),
+    fromDate: Joi.date().iso().optional(),
+    toDate: Joi.date().iso().optional(),
+    sortBy: Joi.string()
+      .valid("createdAt", "name", "email", "mobile")
+      .optional(),
+    sortOrder: Joi.string().valid("asc", "desc").optional(),
+  });
+  return schema.validate(query, { abortEarly: false });
 };

@@ -13,10 +13,10 @@ exports.validateRegister = (payload) => {
     mobile: Joi.number().integer().min(1000000000).max(9999999999).optional(),
     password: Joi.string().min(6).required(),
     role: Joi.string()
-      .valid(...ROLES)
+      .valid(...Object.values(ROLES))
       .optional(),
     loginType: Joi.string()
-      .valid(...LOGIN_TYPES)
+      .valid(...Object.values(LOGIN_TYPES))
       .optional(),
     fcmToken: Joi.string().allow("").optional(),
     companyName: Joi.when("role", {
@@ -27,7 +27,7 @@ exports.validateRegister = (payload) => {
     type: Joi.when("role", {
       is: ROLES.PARTNER,
       then: Joi.string()
-        .valid(...PARTNER_TYPES)
+        .valid(...Object.values(PARTNER_TYPES))
         .required(),
       otherwise: Joi.forbidden(),
     }),
@@ -59,7 +59,7 @@ exports.validateRegister = (payload) => {
     status: Joi.when("role", {
       is: ROLES.PARTNER,
       then: Joi.string()
-        .valid(...PARTNER_STATUS)
+        .valid(...Object.values(PARTNER_STATUS))
         .optional(),
       otherwise: Joi.forbidden(),
     }),
