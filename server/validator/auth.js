@@ -13,19 +13,12 @@ exports.validateRegister = (payload) => {
     mobile: Joi.number().integer().min(1000000000).max(9999999999).optional(),
     password: Joi.string().min(6).required(),
     role: Joi.string()
-      .valid(ROLES.ADMIN, ROLES.STAFF, ROLES.USER, ROLES.PARTNER)
+      .valid(...ROLES)
       .optional(),
     loginType: Joi.string()
-      .valid(
-        LOGIN_TYPES.EMAIL,
-        LOGIN_TYPES.MOBILE,
-        LOGIN_TYPES.GOOGLE,
-        LOGIN_TYPES.PASSWORD,
-        LOGIN_TYPES.OTHER,
-      )
+      .valid(...LOGIN_TYPES)
       .optional(),
     fcmToken: Joi.string().allow("").optional(),
-
     companyName: Joi.when("role", {
       is: ROLES.PARTNER,
       then: Joi.string().min(2).max(150).required(),
@@ -34,12 +27,7 @@ exports.validateRegister = (payload) => {
     type: Joi.when("role", {
       is: ROLES.PARTNER,
       then: Joi.string()
-        .valid(
-          PARTNER_TYPES.BROKER,
-          PARTNER_TYPES.AGENT,
-          PARTNER_TYPES.CONSULTANT,
-          PARTNER_TYPES.BUILDER,
-        )
+        .valid(...PARTNER_TYPES)
         .required(),
       otherwise: Joi.forbidden(),
     }),
@@ -71,15 +59,10 @@ exports.validateRegister = (payload) => {
     status: Joi.when("role", {
       is: ROLES.PARTNER,
       then: Joi.string()
-        .valid(
-          PARTNER_STATUS.ACTIVE,
-          PARTNER_STATUS.INACTIVE,
-          PARTNER_STATUS.PENDING,
-        )
+        .valid(...PARTNER_STATUS)
         .optional(),
       otherwise: Joi.forbidden(),
     }),
   });
-
   return schema.validate(payload, { abortEarly: false });
 };
