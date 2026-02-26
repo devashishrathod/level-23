@@ -5,29 +5,25 @@ exports.updateCostSheet = async (id, payload) => {
   validateObjectId(id, "CostSheet Id");
 
   const costSheet = await CostSheet.findById(id);
-  if (!costSheet || costSheet.isDeleted) throwError(404, "Cost sheet not found");
+  if (!costSheet || costSheet.isDeleted)
+    throwError(404, "Cost sheet not found");
 
   payload = payload || {};
 
-  const {
-    basicRate,
-    development,
-    dgBackup,
-    recreation,
-    societyLegal,
-    floorRise,
-    otherCharges,
-    isActive,
-  } = payload;
+  const { isActive } = payload;
 
-  if (typeof basicRate !== "undefined") costSheet.basicRate = basicRate;
-  if (typeof development !== "undefined") costSheet.development = development;
-  if (typeof dgBackup !== "undefined") costSheet.dgBackup = dgBackup;
-  if (typeof recreation !== "undefined") costSheet.recreation = recreation;
-  if (typeof societyLegal !== "undefined") costSheet.societyLegal = societyLegal;
-  if (typeof floorRise !== "undefined") costSheet.floorRise = floorRise;
-  if (typeof otherCharges !== "undefined") costSheet.otherCharges = otherCharges;
   if (typeof isActive !== "undefined") costSheet.isActive = isActive;
+
+  if (typeof costSheet.total === "undefined" || costSheet.total === null) {
+    costSheet.total =
+      (costSheet.basicRate || 0) +
+      (costSheet.development || 0) +
+      (costSheet.dgBackup || 0) +
+      (costSheet.recreation || 0) +
+      (costSheet.societyLegal || 0) +
+      (costSheet.floorRise || 0) +
+      (costSheet.otherCharges || 0);
+  }
 
   costSheet.updatedAt = new Date();
   await costSheet.save();

@@ -7,13 +7,7 @@ exports.validateCreateCostSheet = (data) => {
     towerId: objectId().optional(),
     floorId: objectId().optional(),
     unitId: objectId().optional(),
-    basicRate: Joi.number().min(0).required(),
-    development: Joi.number().min(0).required(),
-    dgBackup: Joi.number().min(0).required(),
-    recreation: Joi.number().min(0).required(),
-    societyLegal: Joi.number().min(0).required(),
-    floorRise: Joi.number().min(0).required(),
-    otherCharges: Joi.number().min(0).required(),
+    otherCharges: Joi.number().min(0).optional(),
     isActive: Joi.boolean().optional(),
   })
     .xor("projectId", "towerId", "floorId", "unitId")
@@ -23,12 +17,6 @@ exports.validateCreateCostSheet = (data) => {
 
 exports.validateUpdateCostSheet = (data) => {
   const schema = Joi.object({
-    basicRate: Joi.number().min(0).optional(),
-    development: Joi.number().min(0).optional(),
-    dgBackup: Joi.number().min(0).optional(),
-    recreation: Joi.number().min(0).optional(),
-    societyLegal: Joi.number().min(0).optional(),
-    floorRise: Joi.number().min(0).optional(),
     otherCharges: Joi.number().min(0).optional(),
     isActive: Joi.boolean().optional(),
   });

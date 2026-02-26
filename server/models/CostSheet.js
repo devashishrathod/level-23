@@ -22,6 +22,8 @@ const costSheetSchema = new mongoose.Schema(
 
     otherCharges: { type: Number, required: true, min: 0 },
 
+    total: { type: Number, required: true, min: 0 },
+
     isActive: { type: Boolean, default: true },
     isDeleted: { type: Boolean, default: false },
   },

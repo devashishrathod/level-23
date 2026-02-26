@@ -1,4 +1,5 @@
 const CostSheet = require("../../models/CostSheet");
+const AdminSetting = require("../../models/AdminSetting");
 const Project = require("../../models/Project");
 const Tower = require("../../models/Tower");
 const Floor = require("../../models/Floor");
@@ -6,36 +7,60 @@ const Unit = require("../../models/Unit");
 const { throwError } = require("../../utils");
 const { UNIT_STATUS } = require("../../constants");
 
+const calculateCostFields = (saleableArea, rates) => {
+  const area = Number(saleableArea);
+  if (!area || Number.isNaN(area) || area <= 0) {
+    throwError(400, "Unit saleable area is missing");
+  }
+
+  const basicRate = area * Number(rates.basicRate || 0);
+  const development = area * Number(rates.development || 0);
+  const dgBackup = area * Number(rates.dgBackup || 0);
+  const recreation = area * Number(rates.recreation || 0);
+  const societyLegal = area * Number(rates.societyLegal || 0);
+  const floorRise = area * Number(rates.floorRise || 0);
+  const otherCharges = Number(rates.otherCharges || 0);
+
+  const total =
+    basicRate +
+    development +
+    dgBackup +
+    recreation +
+    societyLegal +
+    floorRise +
+    otherCharges;
+
+  return {
+    basicRate,
+    development,
+    dgBackup,
+    recreation,
+    societyLegal,
+    floorRise,
+    otherCharges,
+    total,
+  };
+};
+
 exports.createCostSheet = async (payload) => {
   payload = payload || {};
 
-  const {
-    projectId,
-    towerId,
-    floorId,
-    unitId,
+  const { projectId, towerId, floorId, unitId, otherCharges, isActive } =
+    payload;
 
-    basicRate,
-    development,
-    dgBackup,
-    recreation,
-    societyLegal,
-    floorRise,
-    otherCharges,
+  const setting = await AdminSetting.findOne({
+    isDeleted: false,
+    isActive: true,
+  });
+  if (!setting?.costSheetRates) {
+    throwError(
+      400,
+      "Cost sheet rates are not configured. Please update admin settings",
+    );
+  }
 
-    isActive,
-  } = payload;
-
-  const costFields = {
-    basicRate,
-    development,
-    dgBackup,
-    recreation,
-    societyLegal,
-    floorRise,
-    otherCharges,
-  };
-
+  const rates = setting.costSheetRates;
+  if (otherCharges) rates.otherCharges = otherCharges;
   let units = [];
 
   if (unitId) {
@@ -93,7 +118,7 @@ exports.createCostSheet = async (payload) => {
     towerId: u.towerId,
     floorId: u.floorId,
     unitId: u._id,
-    ...costFields,
+    ...calculateCostFields(u.saleableArea, rates),
     isActive,
   }));
 
