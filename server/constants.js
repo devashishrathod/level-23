@@ -96,6 +96,11 @@ module.exports = {
     TERMS: "terms",
   }),
 
+  DEMAND_LETTER_PAYMENT_STATUS: Object.freeze({
+    PENDING: "pending",
+    PAID: "paid",
+  }),
+
   UNIT_STATUS: Object.freeze({
     AVAILABLE: "available",
     SOLD: "sold",
