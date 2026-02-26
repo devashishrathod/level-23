@@ -77,9 +77,7 @@ exports.updateRera = async (id, payload, file) => {
       }
     }
   }
-
   rera.updatedAt = new Date();
-
   try {
     await rera.save();
     return rera;

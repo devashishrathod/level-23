@@ -47,7 +47,6 @@ exports.createRera = async (payload, file) => {
       .replace(/[^a-zA-Z0-9_.-]/g, "");
 
   const fileUrl = await uploadPDF(file.tempFilePath, fileName);
-
   try {
     const doc = await Rera.create({
       type,
@@ -58,7 +57,6 @@ exports.createRera = async (payload, file) => {
       projectId,
       isActive,
     });
-
     return doc;
   } catch (err) {
     if (err?.code === 11000) {
