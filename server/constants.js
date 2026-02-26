@@ -89,6 +89,13 @@ module.exports = {
     PENDING: "pending",
   }),
 
+  RERA_TYPES: Object.freeze({
+    RERA: "rera",
+    PERMISSION: "permission",
+    BROCHURE: "brochure",
+    TERMS: "terms",
+  }),
+
   UNIT_STATUS: Object.freeze({
     AVAILABLE: "available",
     SOLD: "sold",
