@@ -1,5 +1,5 @@
 const Booking = require("../../models/Booking");
-const Property = require("../../models/Property");
+const Unit = require("../../models/Unit");
 const { throwError, validateObjectId } = require("../../utils");
 
 exports.updateBookingProperty = async (id, payload) => {
@@ -8,15 +8,17 @@ exports.updateBookingProperty = async (id, payload) => {
   const result = await Booking.findById(id);
   if (!result || result.isDeleted) throwError(404, "Booking not found");
 
-  const { propertyId } = payload;
-  validateObjectId(propertyId, "Property Id");
+  const { unitId } = payload;
+  validateObjectId(unitId, "Unit Id");
 
-  const property = await Property.findOne({ _id: propertyId, isDeleted: false });
-  if (!property) throwError(404, "Property not found");
+  const unit = await Unit.findOne({ _id: unitId, isDeleted: false });
+  if (!unit) throwError(404, "Unit not found");
+  if (unit.status !== "available") throwError(400, "Unit is not available");
 
-  result.propertyId = propertyId;
+  result.unitId = unitId;
   result.updatedAt = new Date();
-  await result.save();
-
-  return result;
+  unit.isBooked = true;
+  unit.bookingId = result._id;
+  await unit.save();
+  return await result.save();
 };

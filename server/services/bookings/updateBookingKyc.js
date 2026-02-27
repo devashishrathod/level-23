@@ -21,17 +21,33 @@ exports.updateBookingKyc = async (id, files) => {
   const aadharFile = files?.aadhar;
   const panFile = files?.pan;
   const passportFile = files?.passport;
+  const clientSignatureFile = files?.clientSignature;
+  const witnessSignatureFile = files?.witnessSignature;
 
-  const [aadharUrl, panUrl, passportPhotoUrl] = await Promise.all([
+  const [
+    aadharUrl,
+    panUrl,
+    passportPhotoUrl,
+    clientSignatureUrl,
+    witnessSignatureUrl,
+  ] = await Promise.all([
     uploadKycFile(aadharFile, `${bookingNo}_aadhar`),
     uploadKycFile(panFile, `${bookingNo}_pan`),
     passportFile?.tempFilePath ? uploadImage(passportFile.tempFilePath) : null,
+    clientSignatureFile?.tempFilePath
+      ? uploadImage(clientSignatureFile.tempFilePath)
+      : null,
+    witnessSignatureFile?.tempFilePath
+      ? uploadImage(witnessSignatureFile.tempFilePath)
+      : null,
   ]);
 
   if (!result.kyc) result.kyc = {};
   if (aadharUrl) result.kyc.aadharUrl = aadharUrl;
   if (panUrl) result.kyc.panUrl = panUrl;
   if (passportPhotoUrl) result.kyc.passportPhotoUrl = passportPhotoUrl;
+  if (clientSignatureUrl) result.kyc.clientSignatureUrl = clientSignatureUrl;
+  if (witnessSignatureUrl) result.kyc.witnessSignatureUrl = witnessSignatureUrl;
 
   result.updatedAt = new Date();
   await result.save();

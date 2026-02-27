@@ -35,8 +35,8 @@ exports.validateUpdateBookingPersonal = (data) => {
 
 exports.validateUpdateBookingProperty = (data) => {
   const schema = Joi.object({
-    propertyId: objectId().required().messages({
-      "any.invalid": "Invalid propertyId format",
+    unitId: objectId().required().messages({
+      "any.invalid": "Invalid unitId format",
     }),
   });
   return schema.validate(data, { abortEarly: false });

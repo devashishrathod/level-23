@@ -4,6 +4,7 @@ const {
   towerField,
   floorField,
   userField,
+  bookingField,
 } = require("./validObjectId");
 const { UNIT_STATUS, UNIT_TYPES, UNIT_FACING } = require("../constants");
 
@@ -28,6 +29,8 @@ const unitSchema = new mongoose.Schema(
     soldByName: { type: String, trim: true },
     holdByUserId: { ...userField },
     holdByName: { type: String, trim: true },
+    isBooked: { type: Boolean, default: false },
+    bookingId: { ...bookingField },
     isActive: { type: Boolean, default: true },
     isDeleted: { type: Boolean, default: false },
   },

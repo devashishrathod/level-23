@@ -6,9 +6,17 @@ exports.updateKyc = asyncWrapper(async (req, res) => {
     aadhar: req.files?.aadhar,
     pan: req.files?.pan,
     passport: req.files?.passport,
+    clientSignature: req.files?.clientSignature,
+    witnessSignature: req.files?.witnessSignature,
   };
 
-  if (!files.aadhar && !files.pan && !files.passport) {
+  if (
+    !files.aadhar &&
+    !files.pan &&
+    !files.passport &&
+    !files.clientSignature &&
+    !files.witnessSignature
+  ) {
     throwError(422, "No KYC files provided");
   }
 

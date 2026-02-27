@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { propertyField } = require("./validObjectId");
+const { unitField } = require("./validObjectId");
 const {
   BOOKING_TYPES,
   BOOKING_STATUS,
@@ -35,8 +35,10 @@ const bookingSchema = new mongoose.Schema(
       aadharUrl: { type: String, trim: true },
       panUrl: { type: String, trim: true },
       passportPhotoUrl: { type: String, trim: true },
+      clientSignatureUrl: { type: String, trim: true },
+      witnessSignatureUrl: { type: String, trim: true },
     },
-    propertyId: { ...propertyField },
+    unitId: { ...unitField },
     bookingAmount: { type: Number, default: 0 },
     paymentMethod: {
       type: String,
