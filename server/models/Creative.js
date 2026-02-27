@@ -1,0 +1,22 @@
+const mongoose = require("mongoose");
+const { DEFAULT_IMAGES } = require("../constants");
+
+const creativeSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true, trim: true },
+    description: { type: String, trim: true },
+    image: { type: String, default: DEFAULT_IMAGES.BANNER },
+    isSent: { type: Boolean, default: false },
+    totalPartnerSent: { type: Number, default: 0, min: 0 },
+    isActive: { type: Boolean, default: true },
+    isDeleted: { type: Boolean, default: false },
+  },
+  { timestamps: true, versionKey: false },
+);
+
+creativeSchema.index(
+  { name: 1 },
+  { unique: true, partialFilterExpression: { isDeleted: false } },
+);
+
+module.exports = mongoose.model("Creative", creativeSchema);

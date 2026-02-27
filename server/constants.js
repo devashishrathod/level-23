@@ -101,6 +101,13 @@ module.exports = {
     PAID: "paid",
   }),
 
+  SENT_CREATIVE_STATUS: Object.freeze({
+    PENDING: "pending",
+    DRAFT: "draft",
+    FAILED: "failed",
+    SENT: "sent",
+  }),
+
   UNIT_STATUS: Object.freeze({
     AVAILABLE: "available",
     SOLD: "sold",
